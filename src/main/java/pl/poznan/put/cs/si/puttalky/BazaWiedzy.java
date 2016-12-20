@@ -1,6 +1,7 @@
 package pl.poznan.put.cs.si.puttalky;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,7 +30,7 @@ public class BazaWiedzy {
     OWLReasoner silnik;
     
     public void inicjalizuj() {
-		File plik=new File("src/main/resources/pizza.owl");
+		InputStream plik = this.getClass().getResourceAsStream("/pizza.owl");
 		manager = OWLManager.createOWLOntologyManager();
 		
 		try {
