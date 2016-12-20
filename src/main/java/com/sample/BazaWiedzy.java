@@ -29,7 +29,7 @@ public class BazaWiedzy {
     OWLReasoner silnik;
     
     public void inicjalizuj() {
-		File plik=new File("/Users/lawrynka/Documents/workspaceChat/Puttalky/src/main/resources/pizza.owl");
+		File plik=new File("src/main/resources/pizza.owl");
 		manager = OWLManager.createOWLOntologyManager();
 		
 		try {
