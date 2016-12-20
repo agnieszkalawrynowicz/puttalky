@@ -1,4 +1,4 @@
-package com.sample;
+package pl.poznan.put.cs.si.puttalky;
 
 import java.util.HashSet;
 import java.util.Set;

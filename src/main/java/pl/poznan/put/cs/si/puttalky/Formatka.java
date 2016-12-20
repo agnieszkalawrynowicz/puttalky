@@ -1,4 +1,4 @@
-package com.sample;
+package pl.poznan.put.cs.si.puttalky;
 
 /** Author: agalawrynowicz<br>
  * Date: 19-Dec-2016 */

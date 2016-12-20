@@ -1,10 +1,10 @@
-package com.sample
+package pl.poznan.put.cs.si.puttalky
  
-import com.sample.Fakt;
-import com.sample.Zamowienie; 
-import com.sample.Ciasto;
-import com.sample.Dodatek;
-import com.sample.BazaWiedzy;
+import pl.poznan.put.cs.si.puttalky.Fakt;
+import pl.poznan.put.cs.si.puttalky.Zamowienie; 
+import pl.poznan.put.cs.si.puttalky.Ciasto;
+import pl.poznan.put.cs.si.puttalky.Dodatek;
+import pl.poznan.put.cs.si.puttalky.BazaWiedzy;
 import java.util.Set;
 
 
