@@ -1,4 +1,4 @@
-package com.sample;
+package pl.poznan.put.cs.si.puttalky;
 
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
@@ -7,10 +7,7 @@ import org.kie.api.runtime.KieSession;
 /** Author: agalawrynowicz<br>
  * Date: 19-Dec-2016 */
 
-/**
- * This is a sample class to launch a rule.
- */
-public class DroolsTest {
+public class PuttalkyMain {
 
 	public static int liczba=0;
 	
