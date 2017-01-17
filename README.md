@@ -3,8 +3,13 @@
 1. *File*->*Open Project*
 2. Wskazać katalog z plikiem `pom.xml`
 3. *Run*->*Run Project (puttalky)*
-4. W oknie *Select Main Class for Execution* wskazać `com.sample.DroolsTest`
+4. W oknie *Select Main Class for Execution* wskazać `pl.poznan.put.cs.si.puttalky.PuttalkyMain`
 5. Kliknąć *Select Main Class*
+
+Jeśli na liście *Select Main Class* nie pojawiają się żadne elementy,
+należy najpierw odpalić budowanie Mavenem, np.:
+Prawym na projekt ->*Build with Dependencies*
+
 
 ## Eclipse Neon
 1. *File*->*Import*->*Maven*->*Existing Maven Project*
@@ -13,7 +18,7 @@
 3. *Finish*
 4. Prawym na `puttalky`
 5. *Run As* -> *Java Application*
-6. Wskazać `DroolsTest` z pakietu `com.sample`
+6. Wskazać `PuttalkyMain` z pakietu `pl.poznan.put.cs.si.puttalky`
 7. Kliknąć *OK*
 
 ## Wiersz poleceń
