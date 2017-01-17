@@ -1,4 +1,16 @@
 # Jak uruchomić PUTtalky?
+## IntelliJ IDEA 2016.3
+1. *Import project*
+2. Wskazać katalog puttalky
+3. *Import project from external model -> Maven*
+4. Zostawić wybrane pola i dodatkowo wybrać *Import Maven projects automatically*
+5. Zaznaczyć wszystkie projekty Maven (*pl.poznan.put.cs.ai.puttalky:1.0-SNAPSHOT*)
+6. Upewnić się, że wybrano najnowszą wersję JDK
+7. Po zakończeniu indeksowania należy wybrać po lewej stronie okna w drzewie projektu package *src/main/java/pl.poznan.put.cs.si.puttalky* i klasę *PuttalkyMain*,
+8. Uruchomić metodę *main* klikając zieloną ikonę play lub używając skrótu klawiszowego(OS X: ctrl+shift+r, Linux/Win: ctrl+shift+f10)
+9. Poprawnie uruchomiony program powinien wyglądać jak na screenshocie poniżej:
+[[https://github.com/matis11/puttalky/blob/master/intellij.png|alt=intellij]]
+
 ## NetBeans 8.2
 1. *File*->*Open Project*
 2. Wskazać katalog z plikiem `pom.xml`
