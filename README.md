@@ -9,7 +9,7 @@
 7. Po zakończeniu indeksowania należy wybrać po lewej stronie okna w drzewie projektu package *src/main/java/pl.poznan.put.cs.si.puttalky* i klasę *PuttalkyMain*,
 8. Uruchomić metodę *main* klikając zieloną ikonę play lub używając skrótu klawiszowego(OS X: ctrl+shift+r, Linux/Win: ctrl+shift+f10)
 9. Poprawnie uruchomiony program powinien wyglądać jak na screenshocie poniżej:
-[[https://github.com/matis11/puttalky/blob/master/intellij.png|alt=intellij]]
+![IntelliJ IDE](intellij.png)
 
 ## NetBeans 8.2
 1. *File*->*Open Project*
