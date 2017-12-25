@@ -58,10 +58,11 @@ rule "Podaj dodatki"
 		parser.przetworzOdpowiedz();
 		
 		boolean inserted = false;
-  
+  		Fakt wybrane_dodatki = new Fakt("dodatek", "Wybrane dodatki");
+  		
 		for (String slowo : parser.getSlowaKluczowe()){
 			for (String uriKlasy : baza.dopasujDodatek(slowo)) { 
-		        insert(new Fakt("dodatek", uriKlasy));
+				wybrane_dodatki.addOpcja(uriKlasy);
 		        inserted = true;
 		    } 
 		}
@@ -70,6 +71,8 @@ rule "Podaj dodatki"
 		if (!inserted && !listaDodatkow.isEmpty()) {
 			String dodatki = String.join(", ", listaDodatkow);
 			insert(new Fakt("wlasny_dodatek", dodatki));
+		} else if(inserted) {
+			insert(wybrane_dodatki);
 		}
 		update(dodatek);
 end
@@ -112,7 +115,7 @@ rule "Wlasne dodatki"
 		$dodatek : Fakt(nazwa == "wlasny_dodatek") &&
 		$ciasto : Fakt(nazwa == "rodzaj_ciasta")
 	then
-		System.out.println("Przygotujemy specjalną pizzę:");
+		System.out.println("\nPrzygotujemy specjalną pizzę:");
 		System.out.println("  Dodatki: \t" + $dodatek.getWartosc());
 		System.out.println("  Ciasto: \t" + $ciasto.getWartosc());
 end
@@ -123,24 +126,31 @@ rule "Polecana pizza"
 		Fakt(nazwa == "dodatek") && 
 		Fakt(nazwa == "rodzaj_ciasta") && 	
 		not Fakt(nazwa == "pizza_propozycja") &&
-        $dodatek : Fakt( nazwa == "dodatek")
+        $dodatek : Fakt(nazwa == "dodatek")
  		
 		baza: BazaWiedzy()
 		pizza: Pizza()
 	then
 
-		Set<String> pizze = baza.wyszukajPizzePoDodatkach($dodatek.getWartosc());
+		Set<String> pizze = baza.wyszukajPizzePoDodatkach($dodatek.getOpcje());
             
         if (pizze.size()>1){            		
 			for (String nazwaPizzy : pizze) {
 				insert(new Fakt("pizza_propozycja", nazwaPizzy));
-		    	if (!nazwaPizzy.equals("Nothing")){
-		       	   System.out.println("Polecam pizzę:"+nazwaPizzy);
+		    	if (!nazwaPizzy.equals("Nothing")) {
+		       	   System.out.println("Polecam pizzę: \t"+nazwaPizzy);
 		       	}
 		    }
 		}
 		else {
-			System.out.println(pizza.getBrakDopasowania());
+			System.out.println("\nPrzygotujemy specjalną pizzę:");
+			
+			Set<String> dodatkiSet = new HashSet<String>();
+			for (String opcjaIRI : $dodatek.getOpcje()) {
+				dodatkiSet.add(baza.pizzaName(opcjaIRI));
+			}
+			
+			System.out.println("  Dodatki: \t" + String.join(", ", dodatkiSet));
 	    }
 
 end

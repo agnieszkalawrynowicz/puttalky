@@ -1,6 +1,7 @@
 package pl.poznan.put.cs.si.puttalky;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -50,7 +51,6 @@ public class BazaWiedzy {
 				listaPizz.add(klasa.getRepresentativeElement());
 			}
 		} catch (OWLOntologyCreationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -91,19 +91,22 @@ public class BazaWiedzy {
 	    	return result;
 	}
     
-    public Set<String> wyszukajPizzePoDodatkach(String iri){
+    public Set<String> wyszukajPizzePoDodatkach(ArrayList<String> iriList){
 	    	Set<String> pizze = new HashSet<String>();
 	    	OWLObjectProperty maDodatek = manager.getOWLDataFactory().getOWLObjectProperty(IRI.create("http://semantic.cs.put.poznan.pl/ontologie/pizza.owl#maDodatek"));
 	    	Set<OWLClassExpression> ograniczeniaEgzystencjalne = new HashSet<OWLClassExpression>();
 	    	
-	    	OWLClass dodatek = manager.getOWLDataFactory().getOWLClass(IRI.create(iri));
-	    	OWLClassExpression wyrazenie = manager.getOWLDataFactory().getOWLObjectSomeValuesFrom(maDodatek, dodatek);
-	    	ograniczeniaEgzystencjalne.add(wyrazenie);
+	    	for (String iri : iriList) {
+	    		System.out.println(iri);
+	    		OWLClass dodatek = manager.getOWLDataFactory().getOWLClass(IRI.create(iri));
+	    		OWLClassExpression wyrazenie = manager.getOWLDataFactory().getOWLObjectSomeValuesFrom(maDodatek, dodatek);
+	    		ograniczeniaEgzystencjalne.add(wyrazenie);
+	    	}
 	  	
 	    	OWLClassExpression pozadanaPizza = manager.getOWLDataFactory().getOWLObjectIntersectionOf(ograniczeniaEgzystencjalne);
     	
 		for (org.semanticweb.owlapi.reasoner.Node<OWLClass> klasa: silnik.getSubClasses(pozadanaPizza, false)) {
-			pizze.add(klasa.getEntities().iterator().next().asOWLClass().getIRI().getFragment());
+			pizze.add(klasa.getEntities().iterator().next().asOWLClass().getIRI().getShortForm());
 		}
 	
 		return pizze;
