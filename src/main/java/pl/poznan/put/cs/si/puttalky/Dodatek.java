@@ -5,7 +5,4 @@ package pl.poznan.put.cs.si.puttalky;
 
 public class Dodatek extends Formatka {
 
-	public void zadajPytanie() {
-		System.out.println(getMonit()); 	
-	}
 }

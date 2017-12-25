@@ -1,11 +1,11 @@
 package pl.poznan.put.cs.si.puttalky;
 
-import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
-import org.kie.api.runtime.KieSession;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -26,6 +26,7 @@ public class BazaWiedzy {
     private OWLOntology ontologia;
     private Set<OWLClass> listaKlas;
     private Set<OWLClass> listaDodatkow;
+    private Set<OWLClass> listaPizz;
     
     OWLReasoner silnik;
     
@@ -38,43 +39,73 @@ public class BazaWiedzy {
 			silnik = new Reasoner.ReasonerFactory().createReasoner(ontologia);
 			listaKlas = ontologia.getClassesInSignature();
 			listaDodatkow = new HashSet<OWLClass>();
-
+			listaPizz = new HashSet<OWLClass>();
+			
 			OWLClass dodatek  = manager.getOWLDataFactory().getOWLClass(IRI.create("http://semantic.cs.put.poznan.pl/ontologie/pizza.owl#Dodatek"));
 			for (org.semanticweb.owlapi.reasoner.Node<OWLClass> klasa: silnik.getSubClasses(dodatek, false)) {
 				listaDodatkow.add(klasa.getRepresentativeElement());
 			}
 			
-			
+			OWLClass pizza  = manager.getOWLDataFactory().getOWLClass(IRI.create("http://semantic.cs.put.poznan.pl/ontologie/pizza.owl#Pizza"));
+			for (org.semanticweb.owlapi.reasoner.Node<OWLClass> klasa: silnik.getSubClasses(pizza, false)) {
+				listaPizz.add(klasa.getRepresentativeElement());
+			}
 		} catch (OWLOntologyCreationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
     }
     
     public Set<String> dopasujDodatek(String s){
-    	Set<String> result = new HashSet<String>();
-    	for (OWLClass klasa : listaDodatkow){
-    		if (klasa.toString().toLowerCase().contains(s.toLowerCase()) && s.length()>2){
-    			result.add(klasa.getIRI().toString());
-    		}
-    	}
-    	return result;
+	    	Set<String> result = new HashSet<String>();
+	    	for (OWLClass klasa : listaDodatkow){
+	    		if (klasa.toString().toLowerCase().contains(s.toLowerCase()) && s.length()>2){
+	    			result.add(klasa.getIRI().toString());
+	    		}
+	    	}
+	    	
+	    	return result;
     }
     
-    public Set<String> wyszukajPizzePoDodatkach(String iri){
-    	Set<String> pizze = new HashSet<String>();
-    	OWLObjectProperty maDodatek = manager.getOWLDataFactory().getOWLObjectProperty(IRI.create("http://semantic.cs.put.poznan.pl/ontologie/pizza.owl#maDodatek"));
-    	Set<OWLClassExpression> ograniczeniaEgzystencjalne = new HashSet<OWLClassExpression>();
-    	
-    	OWLClass dodatek = manager.getOWLDataFactory().getOWLClass(IRI.create(iri));
-    	OWLClassExpression wyrazenie = manager.getOWLDataFactory().getOWLObjectSomeValuesFrom(maDodatek, dodatek);
-    	ograniczeniaEgzystencjalne.add(wyrazenie);
-  	
-    	OWLClassExpression pozadanaPizza = manager.getOWLDataFactory().getOWLObjectIntersectionOf(ograniczeniaEgzystencjalne);
+    public Set<String> dopasujPizze(String s){
+    		Set<String> result = new HashSet<String>();
+	    	
+	    	if(s.contains("mies") || s.contains("mięso")) {
+	    		OWLClass pizza  = manager.getOWLDataFactory().getOWLClass(IRI.create("http://semantic.cs.put.poznan.pl/ontologie/pizza.owl#PizzaZMięsem"));
+    			for (org.semanticweb.owlapi.reasoner.Node<OWLClass> klasa: silnik.getSubClasses(pizza, true)) {
+    				result.add(klasa.getRepresentativeElement().getIRI().getShortForm());
+    			}
+	    	} else if(s.contains("wegetaria")) {
+	    		OWLClass pizza  = manager.getOWLDataFactory().getOWLClass(IRI.create("http://semantic.cs.put.poznan.pl/ontologie/pizza.owl#PizzaWegetariańska"));
+    			for (org.semanticweb.owlapi.reasoner.Node<OWLClass> klasa: silnik.getSubClasses(pizza, true)) {
+    				result.add(klasa.getRepresentativeElement().getIRI().getShortForm());
+    			}
+	    	} else {
+	    		for (OWLClass klasa : listaPizz) {
+		    		if (!Objects.equals(s, "pizza") && klasa.toString().toLowerCase().contains(s.toLowerCase()) && s.length()>2){
+		    			result.add(klasa.getIRI().toString());
+		    		}
+		    	}
+	    	}
+	    	
+	    	return result;
+	}
+    
+    public Set<String> wyszukajPizzePoDodatkach(ArrayList<String> iriList){
+	    	Set<String> pizze = new HashSet<String>();
+	    	OWLObjectProperty maDodatek = manager.getOWLDataFactory().getOWLObjectProperty(IRI.create("http://semantic.cs.put.poznan.pl/ontologie/pizza.owl#maDodatek"));
+	    	Set<OWLClassExpression> ograniczeniaEgzystencjalne = new HashSet<OWLClassExpression>();
+	    	
+	    	for (String iri : iriList) {
+	    		OWLClass dodatek = manager.getOWLDataFactory().getOWLClass(IRI.create(iri));
+	    		OWLClassExpression wyrazenie = manager.getOWLDataFactory().getOWLObjectSomeValuesFrom(maDodatek, dodatek);
+	    		ograniczeniaEgzystencjalne.add(wyrazenie);
+	    	}
+	  	
+	    	OWLClassExpression pozadanaPizza = manager.getOWLDataFactory().getOWLObjectIntersectionOf(ograniczeniaEgzystencjalne);
     	
 		for (org.semanticweb.owlapi.reasoner.Node<OWLClass> klasa: silnik.getSubClasses(pozadanaPizza, false)) {
-			pizze.add(klasa.getEntities().iterator().next().asOWLClass().getIRI().getFragment());
+			pizze.add(klasa.getEntities().iterator().next().asOWLClass().getIRI().getShortForm());
 		}
 	
 		return pizze;
@@ -91,7 +122,14 @@ public class BazaWiedzy {
 		for (OWLClass d:  baza.listaDodatkow){
 			System.out.println("dodatek: "+d.toString());
 		}
-
+		for (OWLClass d:  baza.listaPizz){
+			System.out.println("pizza: "+d.toString());
+		}
+	}
+	
+	public String pizzaName(String uri) {
+		String wybrana_pizza = IRI.create(uri).getShortForm();
+		return wybrana_pizza;
 	}
 
 }

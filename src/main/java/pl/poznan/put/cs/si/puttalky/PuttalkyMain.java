@@ -15,10 +15,9 @@ public class PuttalkyMain {
         try {
         	// load up the knowledge base
 	        KieServices ks = KieServices.Factory.get();
-    	    KieContainer kContainer = ks.getKieClasspathContainer();
-        	KieSession kSession = kContainer.newKieSession("ksession-rules");
+    	    		KieContainer kContainer = ks.getKieClasspathContainer();
+    	    		KieSession kSession = kContainer.newKieSession("ksession-rules");
 
-        	
             Zamowienie zamowienie = new Zamowienie();
             Ciasto ciasto = new Ciasto();
             Dodatek dodatek = new Dodatek();
