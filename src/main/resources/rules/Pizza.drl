@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 rule "start"
-	salience 3
-	
 	when
 		not Fakt(nazwa=="start")
 		zamowienie : Zamowienie()
@@ -16,12 +14,41 @@ rule "start"
 		insert(new Fakt("start", "0"));
 end
 
-rule "Podaj dodatki"
-	salience 2
-	
+rule "Wybor pizzy"
 	when
-		not Fakt(nazwa == "wlasny_dodatek")
-		not Fakt(nazwa == "dodatek")
+		exists Fakt(nazwa == "start") &&
+		not(exists Fakt(nazwa == "wlasny_wybor")) &&
+		not(exists Fakt(nazwa == "sugeruj_pizze"))
+
+		pizza : Pizza()
+		parser : Parser()
+		baza : BazaWiedzy()
+	then
+		pizza.setMonit("Wpisz nazwę lub typ pizzy (spacja aby pominąć) \n");
+		pizza.zadajPytanie();
+		parser.przetworzOdpowiedz();
+		
+		boolean wybrano = false;
+		
+		for (String slowo : parser.getSlowaKluczowe()){
+			for (String uriKlasy : baza.dopasujPizze(slowo)) {
+			 	insert(new Fakt("wlasny_wybor", uriKlasy));
+			 	wybrano = true;
+		    }
+		}
+		
+		if(!wybrano) {
+			insert(new Fakt("sugeruj_pizze", "Chatbot, zasugeruj pizze"));
+		}
+		
+		update(pizza);
+end
+
+rule "Podaj dodatki"
+	when
+		exists Fakt(nazwa == "sugeruj_pizze") &&
+		not(exists Fakt(nazwa == "wlasny_dodatek")) &&
+		not(exists Fakt(nazwa == "dodatek"))
 		dodatek : Dodatek()
 		parser : Parser()
 		baza : BazaWiedzy()
@@ -48,10 +75,9 @@ rule "Podaj dodatki"
 end
 
 rule "Podaj rodzaj ciasta"
-	salience 2
-	
 	when
-		not Fakt(nazwa == "rodzaj_ciasta")
+		exists Fakt(nazwa == "sugeruj_pizze") &&
+		not(exists Fakt(nazwa == "rodzaj_ciasta"))
 		ciasto : Ciasto()
 		parser : Parser()
 	then
@@ -82,7 +108,8 @@ end
 
 rule "Wlasne dodatki"
 	when
-		$dodatek : Fakt(nazwa == "wlasny_dodatek")
+		exists Fakt(nazwa == "sugeruj_pizze") && 
+		$dodatek : Fakt(nazwa == "wlasny_dodatek") &&
 		$ciasto : Fakt(nazwa == "rodzaj_ciasta")
 	then
 		System.out.println("Przygotujemy specjalną pizzę:");
@@ -91,9 +118,8 @@ rule "Wlasne dodatki"
 end
 
 rule "Polecana pizza"
-	salience 1
-	
 	when
+		exists Fakt(nazwa == "sugeruj_pizze") &&
 		Fakt(nazwa == "dodatek") && 
 		Fakt(nazwa == "rodzaj_ciasta") && 	
 		not Fakt(nazwa == "pizza_propozycja") &&
@@ -119,8 +145,18 @@ rule "Polecana pizza"
 
 end
 
-rule "zakończenie"
+rule "Wlasny wybor pizzy"
+	when
+		$wybor : Fakt(nazwa == "wlasny_wybor")
+		pizza: Pizza()
+		baza: BazaWiedzy()
+	then
+		String nazwa = baza.pizzaName($wybor.getWartosc());
+		System.out.println("Wskazano pizzę: " + nazwa);
+		insert(new Fakt("pizza_propozycja", nazwa));
+end
 
+rule "zakończenie"
 	when
 		not (Fakt(nazwa == "koniec")) &&
 		Fakt(nazwa == "pizza_propozycja") 

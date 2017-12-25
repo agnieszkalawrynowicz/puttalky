@@ -53,6 +53,7 @@ public abstract class Formatka {
 	}
 	
 	public void zadajPytanie() {
+		System.out.println(this.monit);
 	}
 
 }
