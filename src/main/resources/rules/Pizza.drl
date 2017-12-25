@@ -133,7 +133,7 @@ rule "Polecana pizza"
 	then
 
 		Set<String> pizze = baza.wyszukajPizzePoDodatkach($dodatek.getOpcje());
-            
+		    
         if (pizze.size()>1){            		
 			for (String nazwaPizzy : pizze) {
 				insert(new Fakt("pizza_propozycja", nazwaPizzy));

@@ -19,7 +19,7 @@ _[B] oznacza wypowiedź chatbota, [U] użytkownika_
 ## Changes - todo list
 * [X] Zamówienie pizzy spoza listy, własny dodatek (także własne ciasto możliwe)
 * [X] Zamówienie pizzy o konkretnej nazwie lub typie
-* [ ] Więcej niż jeden dodatek w pizzy
+* [X] Więcej niż jeden dodatek w pizzy
 * [ ] Pizza bez mięsa
 * [ ] Przykłady użycia
 

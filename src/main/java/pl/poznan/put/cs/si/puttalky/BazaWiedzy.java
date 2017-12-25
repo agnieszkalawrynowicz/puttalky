@@ -97,7 +97,6 @@ public class BazaWiedzy {
 	    	Set<OWLClassExpression> ograniczeniaEgzystencjalne = new HashSet<OWLClassExpression>();
 	    	
 	    	for (String iri : iriList) {
-	    		System.out.println(iri);
 	    		OWLClass dodatek = manager.getOWLDataFactory().getOWLClass(IRI.create(iri));
 	    		OWLClassExpression wyrazenie = manager.getOWLDataFactory().getOWLObjectSomeValuesFrom(maDodatek, dodatek);
 	    		ograniczeniaEgzystencjalne.add(wyrazenie);
