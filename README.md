@@ -1,39 +1,27 @@
-# Jak uruchomić PUTtalky?
-## IntelliJ IDEA 2016.3
-1. *Import project*
-2. Wskazać katalog puttalky
-3. *Import project from external model -> Maven*
-4. Zostawić wybrane pola i dodatkowo wybrać *Import Maven projects automatically*
-5. Zaznaczyć wszystkie projekty Maven (*pl.poznan.put.cs.ai.puttalky:1.0-SNAPSHOT*)
-6. Upewnić się, że wybrano najnowszą wersję JDK
-7. Po zakończeniu indeksowania należy wybrać po lewej stronie okna w drzewie projektu package *src/main/java/pl.poznan.put.cs.si.puttalky* i klasę *PuttalkyMain*,
-8. Uruchomić metodę *main* klikając zieloną ikonę play lub używając skrótu klawiszowego(OS X: ctrl+shift+r, Linux/Win: ctrl+shift+f10)
-9. Poprawnie uruchomiony program powinien wyglądać jak na screenshocie poniżej:
-![IntelliJ IDE](intellij.png)
+# PUTTalky
 
-## NetBeans 8.2
-1. *File*->*Open Project*
-2. Wskazać katalog z plikiem `pom.xml`
-3. *Run*->*Run Project (puttalky)*
-4. W oknie *Select Main Class for Execution* wskazać `pl.poznan.put.cs.si.puttalky.PuttalkyMain`
-5. Kliknąć *Select Main Class*
+Chatbot służący do zamawiania pizzy. Wykorzystanie Drools oraz OWL dla zapewniania dialogu z użytkownikiem.
 
-Jeśli na liście *Select Main Class* nie pojawiają się żadne elementy,
-należy najpierw odpalić budowanie Mavenem, np.:
-Prawym na projekt ->*Build with Dependencies*
+## Przykłady użycia
 
+### Własny dodatek
 
-## Eclipse Neon
-1. *File*->*Import*->*Maven*->*Existing Maven Project*
-2. *Browse*
-2. Wskazać katalog z plikiem `pom.xml`
-3. *Finish*
-4. Prawym na `puttalky`
-5. *Run As* -> *Java Application*
-6. Wskazać `PuttalkyMain` z pakietu `pl.poznan.put.cs.si.puttalky`
-7. Kliknąć *OK*
+_[B] oznacza wypowiedź chatbota, [U] użytkownika_
 
-## Wiersz poleceń
-1. Przejść do katalogu ze źródłami
-2. `mvn package`
-3. `java -jar target/puttalky-1.0-SNAPSHOT.jar`
+> [B] Jaki dodatek powinna zawierać Twoja pizza?:  
+> [U] kurczak, sharma  
+> [B] Podaj rodzaj ciasta:  
+> [U] cienkie  
+> [B] Przygotujemy specjalną pizzę:  
+> [B]   Dodatki: 	kurczak, sharma  
+> [B]   Ciasto: 	cienkie
+
+## Changes - todo list
+* [X] Zamówienie pizzy spoza listy, własny dodatek (także własne ciasto możliwe)
+* [ ] Zamówienie pizzy o konkretnej nazwie lub typie
+* [ ] Więcej niż jeden dodatek w pizzy
+* [ ] Pizza bez mięsa
+* [ ] Przykłady użycia
+
+## License
+The content of this project itself is licensed under the [Creative Commons Attribution 3.0 license](http://creativecommons.org/licenses/by/3.0/us/deed.en_US), and the underlying source code used to format and display that content is licensed under the [MIT license](http://opensource.org/licenses/mit-license.php).
