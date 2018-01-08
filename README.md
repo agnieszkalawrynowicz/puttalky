@@ -17,7 +17,7 @@
 3. *Run*->*Run Project (puttalky)*
 4. W oknie *Select Main Class for Execution* wskazać `pl.poznan.put.cs.si.puttalky.PuttalkyMain`
 5. Kliknąć *Select Main Class*
-\![NetBeans IDE](netbeans.png)
+![NetBeans IDE](netbeans.png)
 
 Jeśli na liście *Select Main Class* nie pojawiają się żadne elementy,
 należy najpierw odpalić budowanie Mavenem, np.:
