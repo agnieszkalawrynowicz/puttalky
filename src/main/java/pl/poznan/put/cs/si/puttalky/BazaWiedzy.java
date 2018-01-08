@@ -51,18 +51,30 @@ public class BazaWiedzy {
 		}
 		
     }
-    
-    public Set<String> dopasujDodatek(String s){
-    	Set<String> result = new HashSet<String>();
-    	for (OWLClass klasa : listaDodatkow){
-    		if (klasa.toString().toLowerCase().contains(s.toLowerCase()) && s.length()>2){
-    			result.add(klasa.getIRI().toString());
-    		}
-    	}
-    	return result;
-    }
-    
-    public Set<String> wyszukajPizzePoDodatkach(String iri){
+
+	public Set<String> dopasujDodatek(String s) {
+		Set<String> result = new HashSet<String>();
+		Set<String> tempResult = new HashSet<String>();
+		for (OWLClass klasa : listaDodatkow) {
+			if (klasa.equals("nothing")) continue;
+			if (klasa.getIRI().toString().toLowerCase().contains(s.toLowerCase()) && s.length() > 2) {
+				tempResult.add(klasa.getIRI().toString());
+			}
+		}
+		if (tempResult.size() == 1)
+			result.addAll(tempResult);
+		else {
+			for (String klasa : tempResult) {
+				if (klasa.toLowerCase().split("#")[1].equals(s.toLowerCase()) && s.length() > 2) {
+					result.add(klasa);
+				}
+			}
+		}
+		return result;
+	}
+
+
+	public Set<String> wyszukajPizzePoDodatkach(String iri){
     	Set<String> pizze = new HashSet<String>();
     	OWLObjectProperty maDodatek = manager.getOWLDataFactory().getOWLObjectProperty(IRI.create("http://semantic.cs.put.poznan.pl/ontologie/pizza.owl#maDodatek"));
     	Set<OWLClassExpression> ograniczeniaEgzystencjalne = new HashSet<OWLClassExpression>();
